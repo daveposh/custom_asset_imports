@@ -1,0 +1,31 @@
+{
+  "name": "dell-asset-import-app",
+  "version": "1.0.0",
+  "description": "Freshservice FDK app for importing and managing Dell asset tags with service tags",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "fdk run",
+    "pack": "fdk pack",
+    "validate": "fdk validate",
+    "test": "fdk test"
+  },
+  "keywords": [
+    "freshservice",
+    "fdk",
+    "assets",
+    "dell",
+    "import",
+    "service-tag"
+  ],
+  "author": "Asset Management Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "@freshworks/fdk": "^9.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 

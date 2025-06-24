@@ -1,0 +1,12 @@
+{
+  "freshservice_api": {
+    "schema": {
+      "host": "<%=iparam.domain%>.freshservice.com",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Basic <%=encode(iparam.api_key)%>",
+        "Content-Type": "application/json"
+      }
+    }
+  }
+} 

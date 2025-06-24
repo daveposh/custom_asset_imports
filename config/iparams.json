@@ -1,0 +1,35 @@
+{
+  "domain": {
+    "display_name": "Freshservice Domain",
+    "description": "Enter your Freshservice domain (without .freshservice.com)",
+    "type": "text",
+    "required": true
+  },
+  "api_key": {
+    "display_name": "API Key",
+    "description": "Enter your Freshservice API key",
+    "type": "api_key",
+    "type_attributes": {
+      "product": "freshservice"
+    },
+    "secure": true,
+    "required": true
+  },
+  "dell_asset_type_ids": {
+    "display_name": "Dell Asset Type IDs",
+    "description": "Enter comma-separated Asset Type IDs for Dell assets (e.g., 1,2,3). Leave empty to scan all asset types.",
+    "type": "text",
+    "required": false
+  },
+  "auto_detect_dell": {
+    "display_name": "Auto-detect Dell Assets",
+    "description": "Automatically detect Dell assets by serial number format across all asset types",
+    "type": "checkbox"
+  },
+  "sync_schedule": {
+    "display_name": "Sync Schedule (hours)",
+    "description": "How often should the asset sync job run? (in hours)",
+    "type": "number",
+    "required": true
+  }
+} 

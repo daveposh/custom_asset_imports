@@ -1,0 +1,31 @@
+{
+  "platform-version": "2.3",
+  "product": {
+    "freshservice": {
+      "location": {
+        "asset_sidebar": {
+          "url": "template.html",
+          "icon": "icon.svg"
+        }
+      },
+      "requests": {
+        "freshservice_api": "freshservice_api"
+      },
+      "events": {
+        "onAppInstall": {
+          "handler": "onAppInstallHandler"
+        },
+        "onScheduledEvent": {
+          "handler": "scheduledEventHandler"
+        }
+      }
+    }
+  },
+  "engines": {
+    "node": "18.19.1",
+    "fdk": "9.0.1"
+  },
+  "dependencies": {
+    "axios": "1.4.0"
+  }
+} 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Import Manager</title>
+    <link rel="stylesheet" type="text/css" href="https://static.freshdev.io/fdk/2.0/assets/fresh_bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h3><i class="icon-assets"></i> Dell Asset Import Manager</h3>
+            <p class="text-muted">Auto-detect and manage Dell assets across multiple asset types</p>
+        </div>
+        
+        <div class="content">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Dell Asset Sync (Multi-Type Support)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalAssets">-</div>
+                                <div class="stat-label">Dell Assets Found</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <div class="stat-number" id="lastSync">-</div>
+                                <div class="stat-label">Last Sync</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions mt-3">
+                        <button id="syncNow" class="btn btn-primary">
+                            <i class="icon-refresh"></i> Sync Now
+                        </button>
+                        <button id="viewLogs" class="btn btn-secondary ml-2">
+                            <i class="icon-list"></i> View Logs
+                        </button>
+                    </div>
+                    
+                    <div id="syncStatus" class="mt-3" style="display: none;">
+                        <div class="alert alert-info">
+                            <i class="icon-spinner icon-spin"></i> Syncing assets...
+                        </div>
+                    </div>
+                    
+                    <div id="syncResult" class="mt-3" style="display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5>Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <div id="activityLog">
+                        <p class="text-muted">No recent activity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

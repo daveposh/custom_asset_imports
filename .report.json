@@ -1,0 +1,14 @@
+{
+  "lints": [
+    {
+      "severity": 1,
+      "value": "app\\app.js::13: refrain from simply logging errors.",
+      "type": "custom-js-lint"
+    },
+    {
+      "severity": 1,
+      "value": "app\\app.js::226: refrain from simply logging errors.",
+      "type": "custom-js-lint"
+    }
+  ]
+}
