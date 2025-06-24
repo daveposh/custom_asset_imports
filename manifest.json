@@ -11,6 +11,11 @@
       "requests": {
         "freshservice_api": "freshservice_api"
       },
+      "functions": {
+        "executeJob": {
+          "timeout": 20
+        }
+      },
       "events": {
         "onAppInstall": {
           "handler": "onAppInstallHandler"
