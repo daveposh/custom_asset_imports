@@ -17,6 +17,9 @@
         },
         "freshservice_api": {
           "timeout": 20
+        },
+        "dataStore": {
+          "timeout": 15
         }
       },
       "events": {
