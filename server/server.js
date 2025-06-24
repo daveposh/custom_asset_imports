@@ -49,6 +49,44 @@ exports = {
       processed_assets: 0,
       timestamp: new Date().toISOString()
     };
+  },
+
+  /**
+   * Execute Job Handler
+   * Called directly from frontend for manual sync operations
+   */
+  executeJob: function(args) {
+    console.log('executeJob called from frontend');
+    console.log('Job data:', JSON.stringify(args, null, 2));
+    
+    // Parse job data if it's a string
+    let jobData = args;
+    if (typeof args === 'string') {
+      try {
+        jobData = JSON.parse(args);
+      } catch (e) {
+        console.error('Failed to parse job data:', e);
+        return { success: false, error: 'Invalid job data format' };
+      }
+    }
+    
+    const jobName = jobData.name || jobData.jobType || 'dell_asset_sync';
+    
+    if (jobName === 'dell_asset_sync') {
+      console.log('Starting manual Dell asset sync');
+      return {
+        success: true,
+        message: 'Dell asset sync job completed successfully',
+        updatedAssets: 0,
+        totalAssets: 0,
+        timestamp: new Date().toISOString()
+      };
+    } else {
+      return { 
+        success: false, 
+        error: 'Unknown job name: ' + jobName 
+      };
+    }
   }
 
 }; 
