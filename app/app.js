@@ -136,7 +136,8 @@ function triggerAssetSync() {
     
     // Trigger the backend sync job
     client.request.invoke('executeJob', {
-        body: JSON.stringify({ name: 'dell_asset_sync' })
+        name: 'dell_asset_sync',
+        jobType: 'dell_asset_sync'
     }).then(function(response) {
         // Update UI based on response
         syncButton.disabled = false;

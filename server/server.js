@@ -11,7 +11,7 @@ exports = {
         // Schedule the Dell asset sync job
         const scheduleData = {
             name: 'dell_asset_sync',
-            data: {},
+            data: { jobType: 'dell_asset_sync' },
             schedule_at: new Date(Date.now() + 60000).toISOString(), // Start in 1 minute
             repeat: {
                 time_unit: 'hours',
@@ -19,15 +19,21 @@ exports = {
             }
         };
         
-        $schedule.create(scheduleData)
-            .then(function(data) {
-                console.log('Scheduled job created:', data);
-                renderData();
-            })
-            .catch(function(error) {
-                console.error('Error creating scheduled job:', error);
-                renderData({ error: 'Failed to schedule sync job' });
-            });
+        try {
+            // Check if $schedule is available
+            if (typeof $schedule === 'undefined') {
+                console.log('$schedule not available, skipping job scheduling');
+                renderData({ message: 'App installed successfully (scheduling not available in dev mode)' });
+                return;
+            }
+            
+            const result = $schedule.create(scheduleData);
+            console.log('Scheduled job created:', result);
+            renderData({ message: 'App installed and sync job scheduled successfully' });
+        } catch (error) {
+            console.error('Error creating scheduled job:', error);
+            renderData({ error: 'Failed to schedule sync job: ' + error.message });
+        }
     },
 
     /**
@@ -35,14 +41,19 @@ exports = {
      * Handles all scheduled jobs
      */
     scheduledEventHandler: function(args) {
-        console.log('Scheduled event triggered:', args.data.name);
+        console.log('Scheduled event triggered:', JSON.stringify(args.data));
         
-        switch(args.data.name) {
+        // Check both args.data.jobType and args.data.name for compatibility
+        const jobType = args.data.jobType || args.data.name || args.name;
+        
+        switch(jobType) {
             case 'dell_asset_sync':
+                console.log('Starting Dell asset sync from scheduled event');
                 return handleDellAssetSync(args);
             default:
-                console.log('Unknown scheduled job:', args.data.name);
-                return;
+                console.log('Unknown scheduled job type:', jobType);
+                console.log('Available data:', JSON.stringify(args));
+                return { success: false, error: 'Unknown job type' };
         }
     },
 
@@ -50,10 +61,26 @@ exports = {
      * Manual sync trigger (called from frontend)
      */
     executeJob: function(args) {
-        if (args.name === 'dell_asset_sync') {
+        console.log('Manual job execution requested:', JSON.stringify(args));
+        
+        // Parse the request body if it's a string
+        let jobData = args;
+        if (typeof args === 'string') {
+            try {
+                jobData = JSON.parse(args);
+            } catch (e) {
+                console.error('Failed to parse job data:', e);
+                return { success: false, error: 'Invalid job data format' };
+            }
+        }
+        
+        const jobName = jobData.name || jobData.jobType;
+        
+        if (jobName === 'dell_asset_sync') {
+            console.log('Starting manual Dell asset sync');
             return handleDellAssetSync(args);
         } else {
-            return { success: false, error: 'Unknown job name' };
+            return { success: false, error: 'Unknown job name: ' + jobName };
         }
     }
 };
@@ -65,8 +92,9 @@ exports = {
 async function handleDellAssetSync(args) {
     try {
         console.log('Starting Dell asset sync job...');
+        console.log('Sync args received:', JSON.stringify(args, null, 2));
         
-        const iparams = args.iparams;
+        const iparams = args.iparams || args;
         const baseUrl = `https://${iparams.domain}.freshservice.com`;
         const authHeader = Buffer.from(`${iparams.api_key}:X`).toString('base64');
         

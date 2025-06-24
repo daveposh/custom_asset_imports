@@ -7,7 +7,7 @@
     },
     {
       "severity": 1,
-      "value": "app\\app.js::226: refrain from simply logging errors.",
+      "value": "app\\app.js::227: refrain from simply logging errors.",
       "type": "custom-js-lint"
     }
   ]
