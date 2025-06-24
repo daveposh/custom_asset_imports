@@ -16,7 +16,10 @@
           "handler": "onAppInstallHandler"
         },
         "onScheduledEvent": {
-          "handler": "scheduledEventHandler"
+          "handler": "onScheduledEventHandler"
+        },
+        "onExternalEvent": {
+          "handler": "onExternalEventHandler"
         }
       }
     }
@@ -24,8 +27,5 @@
   "engines": {
     "node": "18.19.1",
     "fdk": "9.0.1"
-  },
-  "dependencies": {
-    "axios": "0.27.2"
   }
 } 
