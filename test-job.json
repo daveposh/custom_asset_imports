@@ -1,0 +1,14 @@
+{
+  "event": "executeJob",
+  "data": {
+    "name": "dell_asset_sync",
+    "jobType": "dell_asset_sync",
+    "iparams": {
+      "domain": "your-freshservice-domain",
+      "api_key": "your-api-key-here",
+      "auto_detect_dell": true,
+      "dell_asset_type_ids": "",
+      "sync_schedule": 24
+    }
+  }
+} 

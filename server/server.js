@@ -1,11 +1,39 @@
 const axios = require('axios');
 
-exports = {
-    /**
-     * App Install Handler
-     * Sets up scheduled events when the app is installed
-     */
-    onAppInstallHandler: function(args) {
+/**
+ * Base64 encode function for FDK compatibility
+ */
+function base64Encode(str) {
+    // Try different encoding methods available in FDK
+    if (typeof btoa !== 'undefined') {
+        return btoa(str);
+    } else if (typeof Buffer !== 'undefined') {
+        return Buffer.from(str).toString('base64');
+    } else {
+        // Fallback: manual base64 encoding
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+        let result = '';
+        let i = 0;
+        while (i < str.length) {
+            const a = str.charCodeAt(i++);
+            const b = i < str.length ? str.charCodeAt(i++) : 0;
+            const c = i < str.length ? str.charCodeAt(i++) : 0;
+            const bitmap = (a << 16) | (b << 8) | c;
+            result += chars.charAt((bitmap >> 18) & 63) +
+                     chars.charAt((bitmap >> 12) & 63) +
+                     chars.charAt((bitmap >> 6) & 63) +
+                     chars.charAt(bitmap & 63);
+        }
+        return result.substring(0, result.length - result.length % 4) + 
+               '='.repeat(result.length % 4);
+    }
+}
+
+/**
+ * App Install Handler
+ * Sets up scheduled events when the app is installed
+ */
+exports.onAppInstallHandler = function(args) {
         console.log('App installed successfully');
         
         // Schedule the Dell asset sync job
@@ -34,13 +62,13 @@ exports = {
             console.error('Error creating scheduled job:', error);
             renderData({ error: 'Failed to schedule sync job: ' + error.message });
         }
-    },
+};
 
-    /**
-     * Scheduled Event Handler
-     * Handles all scheduled jobs
-     */
-    scheduledEventHandler: function(args) {
+/**
+ * Scheduled Event Handler
+ * Handles all scheduled jobs
+ */
+exports.scheduledEventHandler = function(args) {
         console.log('Scheduled event triggered:', JSON.stringify(args.data));
         
         // Check both args.data.jobType and args.data.name for compatibility
@@ -55,12 +83,12 @@ exports = {
                 console.log('Available data:', JSON.stringify(args));
                 return { success: false, error: 'Unknown job type' };
         }
-    },
+};
 
-    /**
-     * Manual sync trigger (called from frontend)
-     */
-    executeJob: function(args) {
+/**
+ * Manual sync trigger (called from frontend)
+ */
+exports.executeJob = function(args) {
         console.log('Manual job execution requested:', JSON.stringify(args));
         
         // Parse the request body if it's a string
@@ -82,7 +110,6 @@ exports = {
         } else {
             return { success: false, error: 'Unknown job name: ' + jobName };
         }
-    }
 };
 
 /**
@@ -96,7 +123,7 @@ async function handleDellAssetSync(args) {
         
         const iparams = args.iparams || args;
         const baseUrl = `https://${iparams.domain}.freshservice.com`;
-        const authHeader = Buffer.from(`${iparams.api_key}:X`).toString('base64');
+        const authHeader = base64Encode(`${iparams.api_key}:X`);
         
         const headers = {
             'Authorization': `Basic ${authHeader}`,
