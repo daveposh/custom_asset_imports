@@ -87,6 +87,50 @@ exports = {
         error: 'Unknown job name: ' + jobName 
       };
     }
+  },
+
+  /**
+   * Freshservice API Handler
+   * Handles API requests to Freshservice
+   */
+  freshservice_api: function(args) {
+    console.log('Freshservice API request:', JSON.stringify(args, null, 2));
+    
+    // For now, return mock data since we're in development mode
+    // In a real implementation, this would make actual API calls
+    const uri = args.options?.uri || '';
+    
+    if (uri.includes('/api/v2/assets')) {
+      return {
+        status: 200,
+        response: JSON.stringify({
+          assets: [
+            {
+              id: 1,
+              name: "Dell OptiPlex 7090",
+              asset_tag: "ASSET001",
+              serial_number: "ABC1234",
+              asset_type_id: 21000000001,
+              description: "Dell desktop computer"
+            },
+            {
+              id: 2,
+              name: "Dell Latitude 5520",
+              asset_tag: "ASSET002", 
+              serial_number: "XYZ5678",
+              asset_type_id: 21000000002,
+              description: "Dell laptop computer"
+            }
+          ]
+        })
+      };
+    }
+    
+    // Default response for other API calls
+    return {
+      status: 200,
+      response: JSON.stringify({ message: "API call successful" })
+    };
   }
 
 }; 
